@@ -42,14 +42,14 @@ export default function RootLayout({
                       Home
                     </NavigationMenuLink>
                   </Link>
-                  <Link href="/dashboard" legacyBehavior passHref>
+                  <Link href="/app/dashboard" legacyBehavior passHref>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
                     >
                       Dashboard
                     </NavigationMenuLink>
                   </Link>
-                  <Link href="/accounts" legacyBehavior passHref>
+                  <Link href="/app/accounts" legacyBehavior passHref>
                     <NavigationMenuLink
                       className={navigationMenuTriggerStyle()}
                     >

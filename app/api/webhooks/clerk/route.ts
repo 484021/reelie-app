@@ -76,6 +76,8 @@ export async function POST(req: Request) {
       photo: image_url,
     };
 
+    console.log(user);
+
     const newUser = await createUser(user);
 
     if (newUser) {
@@ -86,7 +88,7 @@ export async function POST(req: Request) {
       });
     }
 
-    return NextResponse.json({message: "New user created", user: newUser})
+    return NextResponse.json({ message: "New user created", user: newUser });
   }
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
   console.log("Webhook body:", body);

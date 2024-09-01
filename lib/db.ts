@@ -2,10 +2,10 @@ import mongoose, { Mongoose } from "mongoose";
 
 const MONGODB_URL = process.env.MONGODB_URL!;
 
-type MongooseConn = {
+interface MongooseConn {
   conn: Mongoose | null;
   promise: Promise<Mongoose> | null;
-};
+}
 
 let cached: MongooseConn = (global as any).mongoose;
 
@@ -22,7 +22,7 @@ export const connect = async () => {
   cached.promise =
     cached.promise ||
     mongoose.connect(MONGODB_URL, {
-      dbName: "reelie-users-db",
+      dbName: "clerk-next14-db",
       bufferCommands: false,
       connectTimeoutMS: 30000,
     });

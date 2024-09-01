@@ -1,18 +1,12 @@
-// // import { clerkClient } from "@clerk/nextjs";
-// import { WebhookEvent } from "@clerk/nextjs/server";
-// import { headers } from "next/headers";
-// // import { NextResponse } from "next/server";
-// import { Webhook } from "svix";
-
 import { createUser } from "@/actions/app/app-actions";
-
-import { Webhook } from "svix";
-import { headers } from "next/headers";
 import { clerkClient, WebhookEvent } from "@clerk/nextjs/server";
+import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+import { Webhook } from "svix";
+
 
 export async function POST(req: Request) {
-  // You can find this in the Clerk Dashboard -> Webhooks -> choose the endpoint
+  // You can find this in the Clerk Dashboard -> Webhooks -> choose the webhook
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET;
 
   if (!WEBHOOK_SECRET) {
@@ -57,12 +51,11 @@ export async function POST(req: Request) {
     });
   }
 
-  // Do something with the payload
-  // For this guide, you simply log the payload to the console
+  // Get the ID and type
   const { id } = evt.data;
   const eventType = evt.type;
 
-  //Create user in MongoDB
+  // CREATE User in mongodb
   if (eventType === "user.created") {
     const { id, email_addresses, image_url, first_name, last_name, username } =
       evt.data;
@@ -76,8 +69,9 @@ export async function POST(req: Request) {
       photo: image_url,
     };
 
-    const newUser = await createUser(user);
+    console.log(user);
 
+    const newUser = await createUser(user);
 
     if (newUser) {
       await clerkClient.users.updateUserMetadata(id, {
@@ -87,8 +81,9 @@ export async function POST(req: Request) {
       });
     }
 
-    return NextResponse.json({ message: "New user created" });
+    return NextResponse.json({ message: "New user created", user: newUser });
   }
+
   console.log(`Webhook with and ID of ${id} and type of ${eventType}`);
   console.log("Webhook body:", body);
 
